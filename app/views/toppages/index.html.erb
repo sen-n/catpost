@@ -1,6 +1,12 @@
-<div class="center jumbotron">
+<% if logged_in? %>
+  <p>ログイン完了ユーザ: <%= current_user.name %></p>
+  <%= link_to 'ログアウト', logout_path, method: :delete %>
+<% else %>
+  <div class="center jumbotron">
   <div class="text-center">
     <h1>ねこまみれ</h1>
     <%= link_to '新規登録', signup_path, class: 'btn btn-lg btn-primary' %>
+    <%= link_to 'ログイン', login_path, class: 'btn btn-lg btn-primary' %>
   </div>
 </div>
+<% end %>
