@@ -1,10 +1,14 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :require_user_logged_in
+  before_action :correct_user, only: [:update, :destroy]
 
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    if logged_in?
+      @posts = current_user.posts.order(id: :desc).page(params[:page])
+    end  
   end
 
   # GET /posts/1
@@ -24,13 +28,14 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.build(post_params)
 
     respond_to do |format|
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render :show, status: :created, location: @post }
       else
+        @posts = current_user.posts.order(id: :desc).page(params[:page])
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
@@ -56,7 +61,7 @@ class PostsController < ApplicationController
   def destroy
     @post.destroy
     respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: 'Post was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -70,5 +75,12 @@ class PostsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def post_params
       params.require(:post).permit(:image)
+    end
+    
+    def correct_user
+      @post = current_user.posts.find_by(id: params[:id])
+      unless @post
+        redirect_to root_url
+      end
     end
 end
