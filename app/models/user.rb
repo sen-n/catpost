@@ -14,6 +14,9 @@ class User < ApplicationRecord
   has_many :followings, through: :relationships, source: :follow
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many :followers, through: :reverses_of_relationship, source: :user
+  has_many :likes
+  has_many :like_posts, through: :likes, source: :post
+
   
   def follow(other_user)
     unless  self == other_user
@@ -33,5 +36,17 @@ class User < ApplicationRecord
   def feed_posts
     Post.where(user_id: self.following_ids + [self.id])
   end  
-    
+  
+  def like(other_post)
+    self.likes.find_or_create_by(post_id: other_post.id)
+  end
+  
+  def unlike(other_post)
+    like = self.likes.find_by(post_id: other_post.id)
+    like.destroy if like
+  end
+  
+  def like?(other_post)
+    self.like_posts.include?(other_post)
+  end  
 end
