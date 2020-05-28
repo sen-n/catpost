@@ -26,18 +26,14 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = current_user.posts.build(post_params)
-
-    respond_to do |format|
       if @post.save
-        flash[:success] = '登録完了しました。'
-        format.html { redirect_to root_url}
-        format.json { render :show, status: :created, location: @post }
+        flash[:success] = '投稿しました。'
+        redirect_to root_url
       else
-        @posts = current_user.posts.order(id: :desc).page(params[:page])
-        format.html { render :new }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        @posts = current_user.feed_posts.order(id: :desc).page(params[:page])
+        flash[:danger] = "投稿に失敗しました。"
+        render :toppages/index
       end
-    end
   end
 
   # PATCH/PUT /posts/1
