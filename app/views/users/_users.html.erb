@@ -7,6 +7,19 @@
           <div>
             <p><%= link_to user.name, user_path(user) %></p>
             <p><%= user.profile %></p>
+        <% unless current_user == user %>
+          <% if current_user.following?(user) %>
+            <%= form_with(model: current_user.relationships.find_by(follow_id: user.id), local: true, method: :delete) do |f| %>
+              <%= hidden_field_tag :follow_id, user.id %>
+              <%= f.submit 'フォロー解除', class: 'btn btn-outline-danger btn-sm' %>
+            <% end %>
+          <% else %>
+            <%= form_with(model: current_user.relationships.build, local: true) do |f| %>
+              <%= hidden_field_tag :follow_id, user.id %>
+              <%= f.submit 'フォロー', class: 'btn btn-outline-info btn-sm' %>
+            <% end %>
+          <% end %>
+        <% end %>
           </div>
         </div>
       </li>
