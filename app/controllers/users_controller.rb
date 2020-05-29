@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_user_logged_in, only: [:index, :show, :update, :followings, :followers, :like_posts]
-  
+  before_action :correct_user,   only: [:edit, :update]
   def index
     @users = User.order(id: :desc).page(params[:page]).per(25)
   end
@@ -35,7 +35,6 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if current_user == @user
       if @user.update(user_params)
         flash[:success] = "プロフィールを編集しました。"
         redirect_to @user
@@ -43,9 +42,6 @@ class UsersController < ApplicationController
         flash.now[:danger] = "プロフィールの編集に失敗しました。"
         render :edit
       end 
-    else
-      redirect_to root_url
-    end  
   end
   
   def followings
@@ -71,6 +67,11 @@ class UsersController < ApplicationController
   
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :profile)
+  end
+  
+  def correct_user
+      @user = User.find(params[:id])
+      redirect_to(root_url) unless @user == current_user
   end
   
 end  
