@@ -6,20 +6,30 @@
           <%= f.label :image, class: 'form-control', rows: 5 %>
           <%= f.file_field :image %>
         </div>
-        <%= f.submit 'Post', class: 'btn btn-primary btn-block' %>
+        <%= f.submit '投稿', class: 'btn btn-outline-info btn-block' %>
       <% end %>
+      <p><%= link_to 'マイページへ戻る', user_path(current_user) %></p>
     </aside>
+ 
     <div class="col-sm-8">
       <%= render 'posts/posts', posts: @posts %>
     </div>
   </div>
-  <%= link_to 'ログアウト', logout_path, method: :delete %>
 <% else %>
   <div class="center jumbotron">
-  <div class="text-center">
-    <h1>ねこまみれ</h1>
-    <%= link_to '新規登録', signup_path, class: 'btn btn-lg btn-primary' %>
-    <%= link_to 'ログイン', login_path, class: 'btn btn-lg btn-primary' %>
+  <div class="card text-center">
+  <div class="card-body">
+    <h1 class="card-title">ねこまみれ</h1>
+    <p class="card-text">うちの自慢のねこちゃん見ていきませんか？</p>
+    <p>あなたの自慢のねこちゃん見せてもらえませんか？</p>
+    <p>ねこちゃんの写真を投稿して誰かに見てもらったり</p>
+    <p>おきにいりのねこちゃんの写真を眺めたり</p>
+    <p>そんなねこ好きなあなたの為の写真投稿サイトです。</p>
+    <p>ねこまみれな日常をはじめませんか？</p>
+    <p><%= link_to '新規登録', signup_path, class: 'btn btn-lg btn-outline-info' %></p>
+    <p><%= link_to 'ログイン', login_path, class: 'btn btn-lg btn-outline-info' %></p>
   </div>
 </div>
 <% end %>
+    
+    

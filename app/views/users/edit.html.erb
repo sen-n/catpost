@@ -33,7 +33,8 @@
         <%= f.text_field :profile, class: 'form-control' %>
       </div>
 
-      <%= f.submit '編集', class: 'btn btn-primary btn-block' %>
+      <%= f.submit '編集', class: 'btn btn-info btn-block' %>
     <% end %>
+     <p><%= link_to 'マイページへ戻る', user_path(current_user) %></p>
   </div>
 </div>
