@@ -4,14 +4,14 @@ class PostsController < ApplicationController
 
 
   def create
-    @post = current_user.posts.build(post_params)
+    @post = current_user.posts.build
       if @post.save
         flash[:success] = '投稿しました。'
         redirect_to root_url
       else
         @posts = current_user.feed_posts.order(id: :desc).page(params[:page])
         flash[:danger] = "投稿に失敗しました。"
-        render :toppages/index
+        redirect_back(fallback_location: root_path)
       end
   end
 
@@ -24,9 +24,6 @@ class PostsController < ApplicationController
 
   private
 
-    def post_params
-      params.require(:post).permit(:image)
-    end
     
     def correct_user
       @post = current_user.posts.find_by(id: params[:id])

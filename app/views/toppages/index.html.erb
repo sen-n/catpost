@@ -1,7 +1,9 @@
+
 <% if logged_in? %>
   <div class="row">
     <aside class="col-sm-3">
       <%= form_with(model: @post, local: true) do |f| %>
+      <%= render 'layouts/error_messages', model: f.object %>
         <div class="form-group">
           <%= f.label :image, class: 'form-control', rows: 5 %>
           <%= f.file_field :image %>
