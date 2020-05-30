@@ -4,17 +4,18 @@ class PostsController < ApplicationController
 
 
   def create
-    @post = current_user.posts.build
-      if @post.save
-        flash[:success] = '投稿しました。'
-        redirect_to root_url
-      else
-        @posts = current_user.feed_posts.order(id: :desc).page(params[:page])
-        flash[:danger] = "投稿に失敗しました。"
-        redirect_back(fallback_location: root_path)
-      end
-  end
-
+    if params[:post].present? 
+      @post = current_user.posts.build(post_params)
+      @post.save
+       flash[:success] = '投稿しました。'
+       redirect_to root_url
+    else
+       @post = current_user.posts.build
+       @posts = current_user.feed_posts.order(id: :desc).page(params[:page])
+       flash[:danger] = "投稿に失敗しました。"
+       render 'toppages/index'
+    end
+  end    
 
   def destroy
     @post.destroy
@@ -23,7 +24,10 @@ class PostsController < ApplicationController
   end
 
   private
-
+    
+    def post_params
+     params.require(:post).permit(:image)
+    end
     
     def correct_user
       @post = current_user.posts.find_by(id: params[:id])
@@ -31,4 +35,6 @@ class PostsController < ApplicationController
         redirect_to root_url
       end
     end
-end
+end  
+
+

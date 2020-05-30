@@ -2,16 +2,16 @@
 <% if logged_in? %>
   <div class="row">
     <aside class="col-sm-3">
-      <%= form_with(model: @post, local: true) do |f| %>
-      <%= render 'layouts/error_messages', model: f.object %>
+        <%= form_with(model: @post, local: true) do |f| %>
         <div class="form-group">
           <%= f.label :image, class: 'form-control', rows: 5 %>
           <%= f.file_field :image %>
         </div>
-        <%= f.submit '投稿', class: 'btn btn-outline-info btn-block' %>
+        <%= f.submit '新規投稿', class: 'btn btn-outline-info btn-block' %>
       <% end %>
-      <p><%= link_to 'マイページへ戻る', user_path(current_user) %></p>
+      <%= link_to 'マイページへ戻る', user_path(current_user) %>
     </aside>
+     
  
     <div class="col-sm-8">
       <%= render 'posts/posts', posts: @posts %>
