@@ -4,7 +4,7 @@
     <aside class="col-sm-3">
         <%= form_with(model: @post, local: true) do |f| %>
         <div class="form-group">
-          <%= f.label :image, class: 'form-control', rows: 5 %>
+          <%= f.label :image, class: 'form-control' %>
           <%= f.file_field :image %>
         </div>
         <%= f.submit '新規投稿', class: 'btn btn-outline-info btn-block' %>
@@ -31,6 +31,7 @@
     <p><%= link_to '新規登録', signup_path, class: 'btn btn-lg btn-outline-info' %></p>
     <p><%= link_to 'ログイン', login_path, class: 'btn btn-lg btn-outline-info' %></p>
   </div>
+</div>
 </div>
 <% end %>
     

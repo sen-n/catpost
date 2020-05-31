@@ -1,29 +1,27 @@
 <div class="row">
-<aside class="col-sm-3">
-
-    
-  <div class="card" >
-  <img src="<%= gravatar_url(@user, { size: 500 }) %>" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title"><%= @user.name %></h5>
-    <p class="card-text"><%= @user.profile %></p>
-  </div>
+  <aside class="col-sm-3">
+    <div class="card" >
+      <img src="<%= gravatar_url(@user, { size: 500 }) %>" class="card-img-top" alt="...">
     <div class="card-body">
-   <a href="<%= followings_user_path(@user) %>" class="card-link">フォロー<span class="badge badge-secondary"><%= @count_followings %></span></a>
-   <a href="<%= followers_user_path(@user) %>" class="card-link">フォロワー<span class="badge badge-secondary"><%= @count_followers %></span></a>
-  </div>
-  <% if current_user == @user %>
-  <div class="card-body">
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item"><%= link_to '新規投稿', root_path %></li>
-    <li class="list-group-item"><%= link_to 'プロフィール編集', edit_user_path(@user) %></li>
-    <li class="list-group-item"><%= link_to 'ログアウト', logout_path, method: :delete %></li>
-  </ul>
-  </div>
-  <% end %>
+      <h5 class="card-title"><%= @user.name %></h5>
+        <p class="card-text"><%= @user.profile %></p>
+    </div>
+    <div class="card-body">
+       <a href="<%= followings_user_path(@user) %>" class="card-link">フォロー<span class="badge badge-secondary"><%= @count_followings %></span></a>
+       <a href="<%= followers_user_path(@user) %>" class="card-link">フォロワー<span class="badge badge-secondary"><%= @count_followers %></span></a>
+    </div>
+      <% if current_user == @user %>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><%= link_to '新規投稿', root_path %></li>
+        <li class="list-group-item"><%= link_to 'プロフィール編集', edit_user_path(@user) %></li>
+        <li class="list-group-item"><%= link_to 'ログアウト', logout_path, method: :delete %></li>
+      </ul>
+    </div>
+      <% end %>
 
-</div> 
-<%= render 'relationships/follow_button', user: @user %>
+    </div> 
+      <%= render 'relationships/follow_button', user: @user %>
   </aside>
 
 
@@ -33,6 +31,6 @@
       <li class="nav-item"><a href="<%= user_path(@user) %>" class="nav-link <%= 'active' if current_page?(user_path(@user)) %>">タイムライン<span class="badge badge-secondary"><%= @count_posts %></span></a></li>
       <li class="nav-item"><a href="<%= like_posts_user_path(@user) %>" class="nav-link <%= 'active' if current_page?(like_posts_user_path(@user)) %>">おきにいり<span class="badge badge-secondary"><%= @count_likes %></span></a></li>
     </ul>
-    <%= render 'posts/posts', posts: @posts %>
+      <%= render 'posts/posts', posts: @posts %>
   </div>
 </div>

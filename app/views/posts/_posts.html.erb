@@ -1,31 +1,33 @@
 <ul class="list-unstyled">
-  <% posts.each do |post| %>
+    <% posts.each do |post| %>
     <li class="media mb-3">
       <img class="mr-2 rounded" src="<%= gravatar_url(post.user, { size: 50 }) %>" alt="">
-      <div class="media-body">
-        <div>
-          <%= link_to post.user.name, user_path(post.user) %> <span class="text-muted">posted at <%= post.created_at %></span>
-        </div>
-        <div>
-          <%= image_tag post.image.url %>
-        </div>
-        <div>
-          <% if current_user == post.user %>
-            <%= link_to '削除', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger btn-sm' %>
-          <% end %>
-          <% if current_user.like?(post) %>
-            <%= form_with(model: current_user.likes.find_by(post_id: post.id), local: true, method: :delete) do |f| %>
-            <%= hidden_field_tag :post_id, post.id %>
-              <%= f.submit 'おきにいり解除', class: 'btn btn-outline-info btn-sm' %>
-            <% end %>  
-          <% else %>
-            <%= form_with(model: current_user.likes.build, local: true) do |f| %>
-            <%= hidden_field_tag :post_id, post.id %>
-              <%= f.submit 'おきりいり登録', class: 'btn btn-info btn-sm' %>
-            <% end %>
-          <% end %>
-        </div>  
+  <div class="media-body">
+    <div>
+      <%= link_to post.user.name, user_path(post.user) %> <span class="text-muted">posted at <%= post.created_at %></span>
+    </div>
+    <div>
+      <%= image_tag post.image.url, :alt => '猫の画像' %>
+    </div>
+    <div>
+      <% if current_user == post.user %>
+        <%= link_to '削除', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger btn-sm' %>
+      <% end %>
+      <% if current_user.like?(post) %>
+        <%= form_with(model: current_user.likes.find_by(post_id: post.id), local: true, method: :delete) do |f| %>
+          <%= hidden_field_tag :post_id, post.id, id: "post_id_#{post.id}" %>
+            <%= f.submit 'おきにいり解除', class: 'btn btn-outline-info btn-sm' %>
+        <% end %>  
+      <% else %>
+        <%= form_with(model: current_user.likes.build, local: true) do |f| %>
+          <%= hidden_field_tag :post_id, post.id, id: "post_id_#{post.id}" %>
+          <%= f.submit 'おきりいり登録', class: 'btn btn-info btn-sm' %>
+        <% end %>
+      <% end %>
+    </div>  
+  </div>
     </li>
+  
   <% end %>
   <%= paginate posts %>
-</ul>
+  </ul>  
