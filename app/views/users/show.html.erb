@@ -16,6 +16,7 @@
         <li class="list-group-item"><%= link_to '新規投稿', root_path %></li>
         <li class="list-group-item"><%= link_to 'プロフィール編集', edit_user_path(@user) %></li>
         <li class="list-group-item"><%= link_to 'ログアウト', logout_path, method: :delete %></li>
+　　　　<li class="list-group-item"><%= link_to '削除', @user, method: :delete, data: { confirm: '本当に退会してもよろしいですか?' }  %></li>
       </ul>
     </div>
       <% end %>

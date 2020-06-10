@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :require_user_logged_in, only: [:index, :show, :update, :followings, :followers, :like_posts]
-  before_action :correct_user,   only: [:edit, :update]
+  before_action :correct_user,   only: [:edit, :update, :destroy]
+  
   def index
     @users = User.order(id: :desc).page(params[:page]).per(25)
   end
@@ -43,6 +44,14 @@ class UsersController < ApplicationController
         render :edit
       end 
   end
+  
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    flash[:success] = "退会しました。"
+    redirect_to root_path
+  end
+   
   
   def followings
     @user = User.find(params[:id])
